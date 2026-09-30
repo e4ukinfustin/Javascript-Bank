@@ -5,7 +5,7 @@
     </head>
     <body>
         <h1>Javascript Bank</h1>
-        <p>Balance: $0.00</p>
+        <p id="balance"> Balance = $0.00</p>
         <input id="amount" type="number" placeholder="Deposit or Withdraw">
         <button id="deposit">Confirm Deposit</button>
         <button id="withdraw">Confirm Withdrawl</button>
@@ -13,20 +13,58 @@
         <script>
             class BankAccount {
                 constructor(balance = 0) {
-                    this.balance = balance
+                    this.balance = balance;
+                }
+                withdrawl(amount) {
+                    if (amount > this.balance || amount <= 0){
+                        return false; 
+                    }
+                    this.balance -= amount;
+                    return true
+                }
+                deposit(amount) {
+                    if (amount > 0) {
+                        this.balance += amount;
+                        return true;
+                    }
+                    return false;
                 }
             }
-            const amount = document.querySelector("#amount")
+            const account = new BankAccount()
+            const amountinput = document.querySelector("#amount")
             const deposit = document.querySelector("#deposit")
-            const withdrawl = document.querySelector("#withdrawl")
-            document.querySelector()
-
-
-
-
+            const withdrawl = document.querySelector("#withdraw")
+            const message = document.querySelector("#message")
+            const balance = document.querySelector("#balance")
+            function updatebalance() {
+                balance.textContent = `balance: $${account.balance.toFixed(2)}`
+            }
+            deposit.addEventListener("click", ()=>{
+                const amount = Number(amountinput.value)
+                if (account.deposit(amount)){
+                    message.textContent = "Deposit was sucessfull"
+                }
+                else {
+                    message.textContent = "Deposit was unsuccessful"
+                }
+                updatebalance()
+                amountinput.value=""
+            })
+            withdrawl.addEventListener("click", ()=>{
+                const amount = Number(amountinput.value)
+                if (account.withdrawl(amount)){
+                    message.textContent = "Withdrawl was sucessfull"
+                }
+                else{
+                    message.textContent = "Withdrawl was unsucessfull"
+                }
+                updatebalance()
+                amountinput.value = ""
+            })
 
 
 
         </script>
     </body>
 </HTML>
+ 
